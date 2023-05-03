@@ -14,9 +14,10 @@ ArrayList<JavaBeans> lista = (ArrayList<JavaBeans>) request.getAttribute("jogos"
 <link rel="icon" href="imagens/favicon.png">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
-	<h1>Cadastro de Jogos</h1>
+<body class="bg">
+	<h1>CADASTRO DE JOGOS</h1>
 	<a href="novo.html" class="Botao1">Novo jogo</a>
+	<a href="report" class="Botao2">Relatório</a>
 	<table id="tabela">
 		<thead>
 			<tr>
@@ -25,24 +26,24 @@ ArrayList<JavaBeans> lista = (ArrayList<JavaBeans>) request.getAttribute("jogos"
 				<th>Plataforma</th>
 				<th>Desenvolvedor</th>
 				<th>Opções</th>
-
 			</tr>
 		</thead>
 		<tbody>
 			<%
-			for (int i = 0; i < lista.size(); i++) {
+				for (int i = 0; i < lista.size(); i++) {
 			%>
-			<tr>
+			<tr class="texto1">
 				<td><%=lista.get(i).getIdjogo()%></td>
 				<td><%=lista.get(i).getNome()%></td>
 				<td><%=lista.get(i).getPlataforma()%></td>
 				<td><%=lista.get(i).getDesenvolvedor()%></td>
-				<td><a href="select?idjogo=<%=lista.get(i).getIdjogo()%>" class="Botao1">Editar</a>
-					<a href="javascript: confirmar(<%=lista.get(i).getIdjogo()%>)" class="Botao2">Excluir</a>
+				<td>
+					<a href="select?idjogo=<%=lista.get(i).getIdjogo()%>" class="Botao1">Editar</a>
+					<a href="javascript:confirmar(<%=lista.get(i).getIdjogo()%>)" class="Botao2">Excluir</a>
 				</td>
 			</tr>
 			<%
-			}
+				}
 			%>
 		</tbody>
 	</table>

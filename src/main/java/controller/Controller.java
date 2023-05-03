@@ -9,10 +9,17 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import model.DAO;
 import model.JavaBeans;
 
-@WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/update", "/delete" })
+@WebServlet(urlPatterns = { "/Controller", "/main", "/insert", "/select", "/update", "/delete", "/report" })
 public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	DAO dao = new DAO();
@@ -36,6 +43,8 @@ public class Controller extends HttpServlet {
 			editarJogo(request, response);
 		} else if (action.equals("/delete")) {
 			removerJogo(request, response);
+		} else if (action.equals("/report")) {
+			gerarRelatorio(request, response);
 		} else {
 			response.sendRedirect("index.html");
 		}
@@ -66,13 +75,12 @@ public class Controller extends HttpServlet {
 		response.sendRedirect("main");
 	}
 
-	// Editar jogo
+	// Listar jogo
 	protected void listarJogo(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// recebimento do id do jogo que será editado
-		String idjogo = request.getParameter("idjogo");
 		// Setar a variável JavaBeans
-		jogo.setIdjogo(idjogo);
+		jogo.setIdjogo(request.getParameter("idjogo"));
 		// Executar o método selecionarJogo
 		dao.selecionarJogo(jogo);
 		// Setar os atributos do formulário com o conteúdo JavaBeans
@@ -84,7 +92,7 @@ public class Controller extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("editar.jsp");
 		rd.forward(request, response);
 	}
-
+	// Editar jogo
 	protected void editarJogo(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Setar as variáveis JavaBeans
@@ -109,5 +117,43 @@ public class Controller extends HttpServlet {
 		dao.deletarJogo(jogo);
 		// Redirecionar para o documento jogo.jsp (atualizando as alterações)
 		response.sendRedirect("main");
+	}
+	// Gerar relatório em PDF
+	protected void gerarRelatorio(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		Document documento = new Document();
+		try {
+			// Tipo de conteúdo
+			response.setContentType("apllication/pdf");
+			// Nome do documento
+			response.addHeader("Content-Disposition", "inline; filename=" + "jogos.pdf");
+			// Criar o documento
+			PdfWriter.getInstance(documento, response.getOutputStream());
+			// Abrir o documento
+			documento.open();
+			documento.add(new Paragraph("Lista de jogos: "));
+			documento.add(new Paragraph(" "));
+			// Criar uma tabela
+			PdfPTable tabela = new PdfPTable(3);
+			// Cabeçalho
+			PdfPCell col1 = new PdfPCell(new Paragraph("Nome"));
+			PdfPCell col2 = new PdfPCell(new Paragraph("Plataforma"));
+			PdfPCell col3 = new PdfPCell(new Paragraph("Desenvolvedor"));
+			tabela.addCell(col1);
+			tabela.addCell(col2);
+			tabela.addCell(col3);
+			// Incrementar a tabela com os jogos
+			ArrayList<JavaBeans> lista = dao.listarJogos();
+			for (int i = 0; i < lista.size(); i++ ) {
+				tabela.addCell(lista.get(i).getNome());
+				tabela.addCell(lista.get(i).getPlataforma());
+				tabela.addCell(lista.get(i).getDesenvolvedor());
+			}
+			documento.add(tabela);
+			documento.close();
+		} catch (Exception e) {
+			System.out.println(e);
+			documento.close();
+		}
 	}
 }

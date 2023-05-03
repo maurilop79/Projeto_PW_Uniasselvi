@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
 
 body{
+	height: 100%;
+	margin: 0;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1em;	
 	font-weight: 400;
@@ -10,6 +12,19 @@ body{
 h1 {
 	color: #66bbff;
 	
+}
+.bg{
+	background-image: url("imagens/nintendo1.jpg");
+}
+.bg2{
+	background-image: url("imagens/nintendo2.jpg");
+}
+.bg3{
+	background-image: url("imagens/nintendo3.jpg");
+}		
+
+.texto1 {
+	color: white;
 }
 
 .Botao1{

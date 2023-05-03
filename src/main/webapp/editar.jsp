@@ -14,19 +14,19 @@
 		<table>
 			<tr>
 				<td><input type="text" name="idjogo" id="caixa2" readonly
-					value="<%out.print(request.getAttribute("idjogo"));%>"></td>
+						value="<%out.print(request.getAttribute("idjogo"));%>"></td>
 			</tr>
 			<tr>
 				<td><input type="text" name="nome" class="Caixa1"
-					value="<%out.print(request.getAttribute("nome"));%>"></td>
+						value="<%out.print(request.getAttribute("nome"));%>"></td>
 			</tr>
 			<tr>
 				<td><input type="text" name="plataforma" class="Caixa1"
-					value="<%out.print(request.getAttribute("plataforma"));%>"></td>
+						value="<%out.print(request.getAttribute("plataforma"));%>"></td>
 			</tr>
 			<tr>
 				<td><input type="text" name="desenvolvedor" class="Caixa1"
-					value="<%out.print(request.getAttribute("desenvolvedor"));%>"></td>
+						value="<%out.print(request.getAttribute("desenvolvedor"));%>"></td>
 			</tr>
 		</table>
 		<input type="button" value="Salvar" class="Botao1" onclick="validar()">

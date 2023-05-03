@@ -64,7 +64,7 @@ public class DAO {
 				String nome = rs.getString(2);
 				String plataforma = rs.getString(3);
 				String desenvolvedor = rs.getString(4);
-				// Populando o ArrayList
+				// Incrementando o ArrayList
 				jogos.add(new JavaBeans(idjogo, nome, plataforma, desenvolvedor));
 			}
 			con.close();
@@ -98,10 +98,10 @@ public class DAO {
 	}
 	//Editar o jogo
 	public void alterarJogo(JavaBeans jogo) {
-		String create = "update jogos set nome=?,plataforma=?,desenvolvedor=? where idjogo=?";
+		String update = "update jogos set nome=?,plataforma=?,desenvolvedor=? where idjogo=?";
 		try {
 			Connection con = conectar();
-			PreparedStatement pst = con.prepareStatement(create);
+			PreparedStatement pst = con.prepareStatement(update);
 			pst.setString(1, jogo.getNome());
 			pst.setString(2, jogo.getPlataforma());
 			pst.setString(3, jogo.getDesenvolvedor());
